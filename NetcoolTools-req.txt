@@ -1,0 +1,140 @@
+1. Pull a list of unprocessed alerts from netcool and displayed them in the flask web app.
+2. work out refresh
+3. Select multiple alerts.
+
+
+################
+smc_auth - auth to smc
+pull_unprocessed_alerts_nc - pull unprocessed alerts from Netcool using the API
+refresh_results - refresh the results
+
+
+#########
+
+Non Process alerts filter from netcool
+
+(Severity > 4 AND  Node != '810-object01.ldap.custcbb.local' 
+AND  Node != '810-webgui02.ldap.custcbb.local' 
+AND Summary NOT LIKE 'Real Error: Port: 22 responded successfully' 
+AND SMCReference NOT LIKE 'IA:' 
+AND  SMCReference NOT LIKE 'TT:' AND SMCReference NOT LIKE 'CC:') OR ( Severity > 4 
+AND  Node != '810-object01.ldap.custcbb.local' 
+AND  Node != '810-webgui02.ldap.custcbb.local' 
+AND Summary NOT LIKE 'Real Error: Port: 22 responded successfully' 
+AND SMCReference LIKE 'CC:' AND Acknowledged = 0)
+
+
+##########
+
+https://www.ibm.com/docs/en/netcoolomnibus/8.1?topic=SSSHTQ_8.1.0/com.ibm.netcool_OMNIbus.doc_8.1.0/omnibus/wip/api/reference/omn_api_http_eg_jsonrowsetget.html
+
+# API reference https://www.ibm.com/support/knowledgecenter/SSSHTQ_8.1.0/com.ibm.netcool_OMNIbus.doc_8.1.0/omn_pdf_api_http_master.pdf
+# https://www.ibm.com/support/knowledgecenter/SSSHTQ_8.1.0/com.ibm.netcool_OMNIbus.doc_8.1.0/omnibus/wip/common/reference/omn_ref_tab_alertsstatus.html
+# https://requests.readthedocs.io/en/master/
+# https://simplejson.readthedocs.io/en/latest/
+# https://810-monitoringlab01.custcbb.local:16311/
+
+
+##################
+
+Alert Table Fields
+
+"Identifier":   "Expedient_151ICMP151-ism02.ldap.custcbb.local151-sw53rAAc30.expedient.com2",
+                                "Serial":       256207677,
+                                "Node": "151-sw53rAAc30.expedient.com",
+                                "NodeAlias":    "",
+                                "Manager":      "ICMP 151-ISM02",
+                                "Agent":        "Expedient_151",
+                                "AlertGroup":   "",
+                                "AlertKey":     "Expedient_151",
+                                "Severity":     0,
+                                "Summary":      "Pings Complete: Echo reply 100% out of 5 (Average RTT = 0.00163)",
+                                "StateChange":  1649091747,
+                                "FirstOccurrence":      1648668685,
+                                "LastOccurrence":       1649091675,
+                                "InternalLast": 1649091739,
+                                "Poll": 240,
+                                "Type": 2,
+                                "Tally":        1780,
+                                "Class":        6900,
+                                "Grade":        0,
+                                "Location":     "151-ism02.ldap.custcbb.local",
+                                "OwnerUID":     65534,
+                                "OwnerGID":     0,
+                                "Acknowledged": 0,
+                                "Flash":        0,
+                                "EventId":      "",
+                                "ExpireTime":   0,
+                                "ProcessReq":   0,
+                                "SuppressEscl": 0,
+                                "Customer":     "Expedient",
+                                "Service":      "",
+                                "PhysicalSlot": 0,
+                                "PhysicalPort": 0,
+                                "PhysicalCard": "",
+                                "TaskList":     0,
+                                "NmosSerial":   "",
+                                "NmosObjInst":  0,
+                                "NmosCauseType":        0,
+                                "NmosDomainName":       "",
+                                "NmosEntityId": 0,
+                                "NmosManagedStatus":    0,
+                                "NmosEventMap": "",
+                                "LocalNodeAlias":       "",
+                                "LocalPriObj":  "",
+                                "LocalSecObj":  "",
+                                "LocalRootObj": "",
+                                "RemoteNodeAlias":      "",
+                                "RemotePriObj": "",
+                                "RemoteSecObj": "",
+                                "RemoteRootObj":        "",
+                                "X733EventType":        0,
+                                "X733ProbableCause":    0,
+                                "X733SpecificProb":     "",
+                                "X733CorrNotif":        "",
+                                "ServerName":   "OBJECT01",
+                                "ServerSerial": 256207677,
+                                "URL":  "",
+                                "ExtendedAttr": "",
+                                "OldRow":       0,
+                                "ProbeSubSecondId":     31,
+                                "BSM_Identity": "",
+                                "CollectionFirst":      0,
+                                "AggregationFirst":     1648668726,
+                                "DisplayFirst": 0,
+                                "AcknowledgedBy":       "",
+                                "ProcessedBy":  "",
+                                "DeletedBy":    "",
+                                "AcknowledgedTime":     0,
+                                "ProcessedTime":        0,
+                                "DeletedTime":  0,
+                                "ArchiveFlag":  1,
+                                "SMCAssetID":   14052,
+                                "SMCCustomerID":        48,
+                                "SMCReference": "",
+                                "NetworkAssureAlarmId": 0,
+                                "NetworkAssurePort":    0,
+                                "NetworkAssureHost":    "",
+                                "LocalTertObj": "",
+                                "LocalObjRelate":       0,
+                                "RemoteTertObj":        "",
+                                "RemoteObjRelate":      0,
+                                "CorrScore":    0,
+                                "CauseType":    0,
+                                "AdvCorrCauseType":     0,
+                                "AdvCorrServerName":    "",
+                                "AdvCorrServerSerial":  0,
+                                "ClearFlag":    0,
+                                "ClearedBy":    "",
+                                "ClearedTime":  0,
+                                "InitialSeverity":      1,
+                                "RowSerial":    256207677
+                        }, {
+                                "Identifier":   "Sarris_Candies_ACMICMPacm-ism02.ldap.custcbb.localSARRISDC01.sarriscandies.local2",
+                                "Serial":       256242699,
+                                "Node": "SARRISDC01.sarriscandies.local",
+                                "NodeAlias":    "",
+                                "Manager":      "ICMP ACM-ISM02",
+                                "Agent":        "Sarris_Candies_ACM",
+                                "AlertGTraceback (most recent call last):
+
